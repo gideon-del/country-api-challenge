@@ -5,12 +5,13 @@ import Header from "../components/Header/Header";
 import Countries from "../store/country-context";
 import { KeyboardBackspace } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Details = () => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoadig] = useState(true);
   const [error, setError] = useState();
-  const ctr = useContext(Countries);
+  const filters = useSelector((state) => state.filters);
   const location = useLocation();
   const country = location.pathname.split("/")[2];
   let content;
@@ -70,13 +71,13 @@ const Details = () => {
       <Header />
       <section
         className={`pb6 ${
-          ctr.theme ? "text-white" : "text-veryDarkBlueL"
+          filters.dark ? "text-white" : "text-veryDarkBlueL"
         } py-7`}
       >
         <div className="flex flex-col items-start px-10 mx-auto space-y-6 font-nunitoSans  lg:max-w-6xl">
           <div
             className={`py-2 px-7 shadow-lg font-nunitoSans font-extrabold flex items-center ${
-              ctr.theme ? "bg-darkBlue" : "bg-white"
+              filters.dark ? "bg-darkBlue" : "bg-white"
             }`}
           >
             <Link to="/">

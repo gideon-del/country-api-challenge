@@ -1,25 +1,40 @@
 import React, { useContext } from "react";
 import Country from "./Country";
 import CtrContry from "../../store/country-context";
+import { useGetCountryQuery } from "../../api/countryApiSlice";
+import { useSelector } from "react-redux";
 const Countries = () => {
   // const [country,setCountry] = useState([]);
   //  const [isLoading,setislLoading] = useState(false)
-  const cotr = useContext(CtrContry);
-  let content = (
-    <section className="h-3/5 flex justify-center items-center">
-      <span className="loader"></span>
-    </section>
+  const filters = useSelector((state) => state.filters);
+  const { data, isLoading, isError, error } = useGetCountryQuery(
+    `${filters.regionFilter ? `region/${filters.regionFilter}` : `all`}`
   );
-  const filterdCountry = cotr.data.filter(
-    (country) =>
-      country.name.common.toLowerCase().includes(cotr.countryFilter.trim()) ||
-      country.officialName.toLowerCase().includes(cotr.countryFilter.trim())
-  );
-  console.log(filterdCountry);
-  if (!cotr.isLoading) {
+
+  let content;
+
+  if (isLoading) {
+    content = (
+      <section className="h-3/5 flex justify-center items-center">
+        <span className="loader"></span>
+      </section>
+    );
+  } else if (isError) {
+    content = <p>{error.message}</p>;
+  } else if (data) {
+    const filterdCountry = data.filter(
+      (country) =>
+        country.name.common
+          .toLowerCase()
+          .includes(filters.countryFilter.trim()) ||
+        country.name.official
+          .toLowerCase()
+          .includes(filters.countryFilter.trim())
+    );
+    console.log(filterdCountry);
     content = (
       <section className="flex flex-row items-center justify-center flex-wrap  py-5  px-14 space-y-6 md:space-y-0 md:grid md:grid-cols-3 md:px-3 md:gap-8 lg:grid-cols-4 md:justify-center md:items-stretch">
-        <Country isLoading={cotr.isLoading} country={filterdCountry} />
+        <Country isLoading={isLoading} country={filterdCountry} />
       </section>
     );
   }

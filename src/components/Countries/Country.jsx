@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Countries from "../../store/country-context";
 import theme from "../../toggle/Toggle";
 const Country = ({ country, isLoading }) => {
-  const cotr = useContext(Countries);
+  const filters = useSelector((state) => state.filters);
   let current = "light";
-  if (cotr.theme) {
+  if (filters.dark) {
     current = "dark";
   }
 
@@ -14,17 +15,17 @@ const Country = ({ country, isLoading }) => {
       <Link to={`details/${ctr.cioc ?? ctr.cca2}`}>
         <section
           className={`${theme.general.card.main} ${theme[current].card.main}`}
-          key={ctr.ccn3}
+          key={ctr.cca2}
         >
           <img
-            src={ctr.flag}
+            src={ctr.flags.svg}
             alt={ctr.name.common}
-            className="w-auto h-52 self-stretch"
+            className="w-full h-52 self-stretch"
           />
           <div
             className={`${theme.general.card.text} ${theme[current].card.text}`}
           >
-            <h2 className="font-extrabold mb-4 text-lg">{ctr.officialName}</h2>
+            <h2 className="font-extrabold mb-4 text-lg">{ctr.name.official}</h2>
             <p className="font-semibold">
               Population: <span className="font-light">{ctr.population}</span>
             </p>
