@@ -1,11 +1,7 @@
-import React, { useContext } from "react";
 import Country from "./Country";
-import CtrContry from "../../store/country-context";
 import { useGetCountryQuery } from "../../api/countryApiSlice";
 import { useSelector } from "react-redux";
 const Countries = () => {
-  // const [country,setCountry] = useState([]);
-  //  const [isLoading,setislLoading] = useState(false)
   const filters = useSelector((state) => state.filters);
   const { data, isLoading, isError, error } = useGetCountryQuery(
     `${filters.regionFilter ? `region/${filters.regionFilter}` : `all`}`
@@ -31,7 +27,6 @@ const Countries = () => {
           .toLowerCase()
           .includes(filters.countryFilter.trim())
     );
-    console.log(filterdCountry);
     content = (
       <section className="flex flex-row items-center justify-center flex-wrap  py-5  px-14 space-y-6 md:space-y-0 md:grid md:grid-cols-3 md:px-3 md:gap-8 lg:grid-cols-4 md:justify-center md:items-stretch">
         <Country isLoading={isLoading} country={filterdCountry} />

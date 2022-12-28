@@ -1,7 +1,5 @@
-import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { countryActions } from "../../store/countrySlice";
-import Countries from "../../store/country-context";
 import theme from "../../toggle/Toggle";
 const Header = () => {
   const filters = useSelector((state) => state.filters);

@@ -1,7 +1,7 @@
-import React, { useContext, useReducer } from "react";
+import React, { useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Countries from "../../store/country-context";
 import { countryActions } from "../../store/countrySlice";
+//For Toggling the dropdown
 const filterReducer = (state, action) => {
   if (action.type === "FILTER") {
     return { filter: action.val, showFilter: false };
@@ -11,7 +11,6 @@ const filterReducer = (state, action) => {
   }
 };
 const Input = () => {
-  // const [filter,setFilter] = useState({showFilter: false, filter:''});
   const [filter, dispatch] = useReducer(filterReducer, {
     filter: "",
     showFilter: false,

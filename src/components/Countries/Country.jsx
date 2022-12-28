@@ -1,9 +1,7 @@
-import React, { useContext } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Countries from "../../store/country-context";
 import theme from "../../toggle/Toggle";
-const Country = ({ country, isLoading }) => {
+const Country = ({ country }) => {
   const filters = useSelector((state) => state.filters);
   let current = "light";
   if (filters.dark) {

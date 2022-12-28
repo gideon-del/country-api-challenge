@@ -1,27 +1,38 @@
-import React, { useContext } from "react";
+import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
-import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Details from "./pages/Details";
 
 import Home from "./pages/Home";
-import Countries from "./store/country-context";
 
+const Details = React.lazy(() => import("./pages/Details"));
 function App() {
   const filters = useSelector((state) => state.filters);
   return (
-    <Router>
-      <main
-        className={`${
-          filters.dark ? "bg-veryDarkBlue" : "bg-white"
-        } min-h-screen`}
-      >
-        <Routes>
-          <Route path="/" element={<Home />} exact />
-          <Route path="/details/:country" element={<Details />} />
-        </Routes>
-      </main>
-    </Router>
+    <Suspense
+      fallback={
+        <div
+          className={`w-screen h-screen flex justify-center items-center ${
+            filters.dark ? "bg-veryDarkBlue" : "bg-white"
+          } `}
+        >
+          <span className="loader"></span>
+        </div>
+      }
+    >
+      <Router>
+        <main
+          className={`${
+            filters.dark ? "bg-veryDarkBlue" : "bg-white"
+          } min-h-screen`}
+        >
+          <Routes>
+            <Route path="/" element={<Home />} exact />
+            <Route path="/details/:country" element={<Details />} />
+          </Routes>
+        </main>
+      </Router>
+    </Suspense>
   );
 }
 

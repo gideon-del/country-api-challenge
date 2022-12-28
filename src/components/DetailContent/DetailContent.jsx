@@ -1,23 +1,20 @@
-import React, { useContext } from "react";
-
 import { Link } from "react-router-dom";
-import Countries from "../../store/country-context";
+import { useSelector } from "react-redux";
 const DetailContent = ({ country }) => {
-  const ctr = useContext(Countries);
-  console.log(country);
+  const darkTheme = useSelector((state) => state.filters.dark);
   const borders = country.borders?.map((bdr) => (
     <Link to={`/details/${bdr}`}>
       <li
         className={`shadow-lg px-5 py-3 text-center font-light ${
-          ctr.theme ? "bg-darkBlue" : "bg-white"
-        } cursor-pointer my-2`}
+          darkTheme ? "bg-darkBlue" : "bg-white"
+        } cursor-pointer my-1`}
+        key={bdr}
       >
         {bdr}
       </li>
     </Link>
   ));
-  console.log(borders);
-
+  const population = Intl.NumberFormat("en-US").format(country.population);
   return (
     <div className="flex flex-col md:grid md:justify-between md:grid-cols-2 md:grid-rows-1 space-y-5 md:space-y-0 md:space-x-10">
       <picture className="flex-1">
@@ -34,8 +31,7 @@ const DetailContent = ({ country }) => {
               <span className="font-light">{country.nativeName}</span>
             </p>
             <p className="font-semibold">
-              Population:{" "}
-              <span className="font-light">{country.population}</span>
+              Population: <span className="font-light">{population}</span>
             </p>
             <p className="font-semibold">
               Region: <span className="font-light">{country.region}</span>
@@ -60,7 +56,7 @@ const DetailContent = ({ country }) => {
         </div>
         <div className="flex flex-col space-y-3 md:space-y-0 md:space-x-3  md:flex-row md:items-center">
           <p className="font-extrabold whitespace-nowrap">Border Coutries:</p>
-          <ul className="list-none flex space-x-3 flex-wrap items-start">
+          <ul className="list-none flex gap-3 flex-wrap items-start">
             {!borders ? (
               <p className="font-extrabold">No Border Country</p>
             ) : (
